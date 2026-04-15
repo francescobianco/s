@@ -57,6 +57,7 @@ help:
 	@echo "  make validate FILE=https://example.com/data.json SCHEMA=packbase"
 
 push:
-	git add .
+	@git config credential.helper 'cache --timeout=3600'
+	@git add .
 	@git commit -am fix || true
 	@git push
