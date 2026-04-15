@@ -1,0 +1,89 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://yafb.net/s/packbase-v1.schema.json",
+
+  "type": "object",
+  "additionalProperties": false,
+
+  "required": ["protocol", "packages"],
+
+  "properties": {
+    "protocol": { "type": "string", "enum": ["v1"] },
+    "packages": {
+      "type": "array",
+
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+
+        "required": ["url"],
+
+        "properties": {
+          "url": { "type": "string" },
+          "description": { "type": ["string", "null"] },
+          "path": { "type": "string" },
+          "date": { "type": "string" },
+          "updated_at": { "type": "string" },
+          "version": { "type": ["string", "null"] },
+          "language": { "type": "string" },
+          "license": { "type": "string" },
+          "keywords": { "type": ["array", "null"] },
+          "categories": { "type": "array" },
+          "dependencies": { "type": ["object", "null"] },
+          "versions": { "type": ["array", "null"] },
+          "install_command": { "type": "string" },
+          "homepage": { "type": ["string", "null"] },
+          "repository": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "url": { "type": "string" },
+              "path": { "type": "string" },
+              "default_ref": { "type": "string" },
+              "browse_url": { "type": "string" }
+            }
+          },
+          "github": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "owner": { "type": "string" },
+              "name": { "type": "string" },
+              "slug": { "type": "string" },
+              "url": { "type": "string" }
+            }
+          },
+          "author": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "name": { "type": "string" },
+              "url": { "type": "string" },
+              "github": { "type": "string" },
+              "github_url": { "type": "string" },
+              "email": { "type": ["string", "null"] }
+            }
+          },
+          "packager": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "name": { "type": "string" },
+              "url": { "type": "string" },
+              "github": { "type": "string" },
+              "github_url": { "type": "string" }
+            }
+          },
+          "flags": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "unsafe": { "type": "boolean" },
+              "excluded_in_search": { "type": "boolean" }
+            }
+          }
+        }
+      }
+    }
+  }
+}
