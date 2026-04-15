@@ -4,8 +4,8 @@ Repository for publishing JSON validation schemas for my projects.
 
 ## Available Schemas
 
-- **packbase.schema.json** - Schema for validating base configurations
-  - URL: https://yafb.net/schema/packbase.schema.json
+- **packbase-v1.schema.json** - Schema for validating base configurations
+  - URL: https://yafb.net/s/packbase-v1.schema.json
 
 ## Usage
 
