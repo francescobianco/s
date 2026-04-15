@@ -1,23 +1,40 @@
-.PHONY: validate help deps install v1 zub
+.PHONY: validate help deps install v1 zub package-manager
 
 SCHEMAS_DIR := schemas
 SCHEMA_URL := https://yafb.net/schema
 
 zub:
-	@mkdir -p .cache
-	@if [ -f .cache/zub_packbase.json ]; then \
+	@mkdir -p .cache; \
+	if [ -f .cache/zub_packbase.json ]; then \
 		echo "Using cached version"; \
 	else \
 		echo "Downloading https://zub.javanile.org/packbase.json..."; \
-		curl -sL https://zub.javanile.org/packbase.json -o .cache/zub_packbase.json; \
-	fi
-	@echo "Validating against local packbase-v1.schema.json..."
-	@ajv validate -s packbase-v1.schema.json -d .cache/zub_packbase.json --spec=draft2020 --strict=false --errors=json 2>&1 | tail -n +2 > /tmp/ajv_out.json; \
+		curl -sL "https://zub.javanile.org/packbase.json" -o .cache/zub_packbase.json; \
+	fi; \
+	echo "Validating against local packbase-v1.schema.json..."; \
+	ajv validate -s packbase-v1.schema.json -d .cache/zub_packbase.json --spec=draft2020 --strict=false --errors=json 2>&1 | tail -n +2 > /tmp/ajv_out.json; \
 	if grep -q '"valid":true' /tmp/ajv_out.json 2>/dev/null; then \
 		echo ".cache/zub_packbase.json valid"; \
 	else \
 		echo "Validation failed:"; \
-		for key in $$(jq -r '.[].params.additionalProperty' /tmp/ajv_out.json | sort -u); do echo "  - Extra key: $$key"; done; \
+		jq -r '.[] | .params.additionalProperty // (.keyword + " at " + .instancePath)' /tmp/ajv_out.json 2>/dev/null | grep -v '^null$$' | sort -u | sed 's/^/  - Error: /'; \
+	fi
+
+package-manager:
+	@mkdir -p .cache; \
+	if [ -f .cache/package-manager_packbase.json ]; then \
+		echo "Using cached version"; \
+	else \
+		echo "Downloading https://www.javanile.org/package-manager/packbase.json..."; \
+		curl -sL "https://www.javanile.org/package-manager/packbase.json" -o .cache/package-manager_packbase.json; \
+	fi; \
+	echo "Validating against local packbase-v1.schema.json..."; \
+	ajv validate -s packbase-v1.schema.json -d .cache/package-manager_packbase.json --spec=draft2020 --strict=false --errors=json 2>&1 | tail -n +2 > /tmp/ajv_out.json; \
+	if grep -q '"valid":true' /tmp/ajv_out.json 2>/dev/null; then \
+		echo ".cache/package-manager_packbase.json valid"; \
+	else \
+		echo "Validation failed:"; \
+		jq -r '.[] | .params.additionalProperty // (.keyword + " at " + .instancePath)' /tmp/ajv_out.json 2>/dev/null | grep -v '^null$$' | sort -u | sed 's/^/  - Error: /'; \
 	fi
 
 deps install:
@@ -50,6 +67,7 @@ help:
 	@echo "Available targets:"
 	@echo "  make validate FILE=<url> SCHEMA=<name> - Validate a remote file against a schema"
 	@echo "  make zub                              - Validate https://zub.javanile.org/packbase.json with local schema"
+	@echo "  make package-manager                 - Validate https://www.javanile.org/package-manager/packbase.json"
 	@echo "  make install                         - Install dependencies (npm global)"
 	@echo "  make clean                          - Remove downloaded schemas"
 	@echo ""

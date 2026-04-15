@@ -5,9 +5,11 @@
   "type": "object",
   "additionalProperties": false,
 
-  "required": ["protocol", "packages"],
+  "required": ["filename", "manifest", "protocol", "packages"],
 
   "properties": {
+    "filename": { "type": "string", "const": "packbase.json" },
+    "manifest": { "type": "string", "const": "https://yafb.net/s/packbase-v1.schema.json" },
     "protocol": { "type": "string", "enum": ["v1"] },
     "packages": {
       "type": "array",
@@ -20,13 +22,16 @@
 
         "properties": {
           "url": { "type": "string" },
+          "id": { "type": "string" },
+          "title": { "type": "string" },
+          "format": { "type": ["string", "null"] },
           "description": { "type": ["string", "null"] },
           "path": { "type": "string" },
           "date": { "type": "string" },
           "updated_at": { "type": "string" },
           "version": { "type": ["string", "null"] },
           "language": { "type": "string" },
-          "license": { "type": "string" },
+          "license": { "type": ["string", "null"] },
           "keywords": { "type": ["array", "null"] },
           "categories": { "type": "array" },
           "dependencies": { "type": ["object", "null"] },
