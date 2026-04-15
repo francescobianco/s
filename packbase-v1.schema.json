@@ -22,8 +22,6 @@
 
         "properties": {
           "url": { "type": "string" },
-          "id": { "type": "string" },
-          "title": { "type": "string" },
           "format": { "type": ["string", "null"] },
           "description": { "type": ["string", "null"] },
           "path": { "type": "string" },
@@ -36,7 +34,7 @@
           "categories": { "type": "array" },
           "dependencies": { "type": ["object", "null"] },
           "versions": { "type": ["array", "null"] },
-          "install_command": { "type": "string" },
+          "install": { "type": "string" },
           "homepage": { "type": ["string", "null"] },
           "repository": {
             "type": "object",
