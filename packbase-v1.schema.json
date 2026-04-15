@@ -8,8 +8,8 @@
   "required": ["filename", "manifest", "protocol", "packages"],
 
   "properties": {
-    "filename": { "type": "string", "const": "packbase.json" },
-    "manifest": { "type": "string", "const": "https://yafb.net/s/packbase-v1.schema.json" },
+    "filename": { "type": "string", "enum": ["packbase.json"] },
+    "manifest": { "type": "string", "enum": ["https://yafb.net/s/packbase-v1.schema.json"] },
     "protocol": { "type": "string", "enum": ["v1"] },
     "packages": {
       "type": "array",
