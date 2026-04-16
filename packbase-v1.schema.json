@@ -21,6 +21,7 @@
         "required": ["url"],
 
         "properties": {
+          "name": { "type": "string" },
           "url": { "type": "string" },
           "format": { "type": ["string", "null"] },
           "description": { "type": ["string", "null"] },
